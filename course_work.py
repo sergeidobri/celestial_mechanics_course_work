@@ -50,8 +50,9 @@ M0 = E0 - e0*np.sin(E0)
 
 # Время интегрирования
 
-t_end = 30*24*3600.0
-dt    = 10.0            # шаг интегрирования, с
+# t_end = 30*24*3600.0
+t_end = 2 * np.pi * np.sqrt(a0**3 / mu) * 3  # 3 витка
+dt    = 1            # шаг интегрирования, с
 Nsteps = int(t_end/dt)
 
 t_arr = np.zeros(Nsteps)
@@ -73,7 +74,7 @@ nu = nu0
 q = w_e**2 * R_e / g_e   # величина для подсчета возмущений, вызванных нецентральностью поля тяжести Земли
 
 for k in range(Nsteps):
-    if nu >= nu0 + 2 * np.pi: break  # период
+    # if nu >= nu0 + 2 * np.pi: break  # период
     t = k*dt
 
     t_arr[k] = t/3600.0  # [ч]
@@ -185,42 +186,42 @@ for k in range(Nsteps):
     nu    += dnu_dt*dt
 
 # --- 8. Построим графики ---
-# fig1 = plt.figure(figsize=(12, 6))
+fig1 = plt.figure(figsize=(12, 6))
 
-# ax1 = fig1.add_subplot(1, 2, 1)
-# ax1.scatter(t_arr, S_arr, s=2, alpha=0.5)
-# ax1.set_xlabel('t, ч')
-# ax1.set_ylabel('S, км/с²')
-# ax1.grid(True)
+ax1 = fig1.add_subplot(1, 2, 1)
+ax1.scatter(t_arr, S_arr, s=2, alpha=0.5)
+ax1.set_xlabel('t, ч')
+ax1.set_ylabel('S, км/с²')
+ax1.grid(True)
 
-# ax2 = fig1.add_subplot(1, 2, 2)
-# ax2.scatter(t_arr, T_arr, s=2, alpha=0.5)
-# ax2.set_xlabel('t, ч')
-# ax2.set_ylabel('T, км/с²')
-# ax2.grid(True)
+ax2 = fig1.add_subplot(1, 2, 2)
+ax2.scatter(t_arr, T_arr, s=2, alpha=0.5)
+ax2.set_xlabel('t, ч')
+ax2.set_ylabel('T, км/с²')
+ax2.grid(True)
 
-# plt.tight_layout()
-# plt.show()   # блокирует выполнение до закрытия первого окна
+plt.tight_layout()
+plt.show()   # блокирует выполнение до закрытия первого окна
 
-# # === Вторая фигура: W и F ===
-# fig2 = plt.figure(figsize=(12, 6))
+# === Вторая фигура: W и F ===
+fig2 = plt.figure(figsize=(12, 6))
 
-# ax3 = fig2.add_subplot(1, 2, 1)
-# ax3.scatter(t_arr, W_arr, s=2, alpha=0.5)
-# ax3.set_xlabel('t, ч')
-# ax3.set_ylabel('W, км/с²')
-# ax3.grid(True)
+ax3 = fig2.add_subplot(1, 2, 1)
+ax3.scatter(t_arr, W_arr, s=2, alpha=0.5)
+ax3.set_xlabel('t, ч')
+ax3.set_ylabel('W, км/с²')
+ax3.grid(True)
 
-# # Расчёт F
-# F_arr = np.sqrt(S_arr**2 + T_arr**2 + W_arr**2)
-# ax4 = fig2.add_subplot(1, 2, 2)
-# ax4.scatter(t_arr, F_arr, s=2, alpha=0.5)
-# ax4.set_xlabel('t, ч')
-# ax4.set_ylabel('F, км/с²')
-# ax4.grid(True)
+# Расчёт F
+F_arr = np.sqrt(S_arr**2 + T_arr**2 + W_arr**2)
+ax4 = fig2.add_subplot(1, 2, 2)
+ax4.scatter(t_arr, F_arr, s=2, alpha=0.5)
+ax4.set_xlabel('t, ч')
+ax4.set_ylabel('F, км/с²')
+ax4.grid(True)
 
-# plt.tight_layout()
-# plt.show()
+plt.tight_layout()
+plt.show()
 
 
 # u = ν + ω (в градусах)
